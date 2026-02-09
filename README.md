@@ -1,43 +1,136 @@
-# README - Profili PowerShell e Zsh
+# Shell Configuration Profiles
 
-Questo repository contiene due file di configurazione per il terminale, uno per **PowerShell** e uno per **Zsh**. Entrambi i profili sono personalizzati per migliorare l’esperienza utente e velocizzare il lavoro da terminale.
-
----
-
-## Profilo Zsh (`.zshrc`)
-
-### Descrizione
-Questo file è la configurazione per la shell **Zsh**, utilizzando il framework [Oh My Zsh](https://ohmyz.sh/). È progettato per caricare un tema, plugin utili, alias personalizzati e alcune ottimizzazioni di performance.
-
-### Caratteristiche principali:
-- Impostazione del tema `robbyrussell` (o tema casuale).
-- Misurazione del tempo di caricamento del profilo in millisecondi.
-- Plugin abilitati: `git`, `zsh-autosuggestions`, `zsh-syntax-highlighting`, `you-should-use`, `zsh-bat`.
-- Alias personalizzati e possibilità di estendere con plugin e alias personalizzati nel percorso `$ZSH_CUSTOM`.
-- Visualizzazione della versione di Zsh all’avvio.
-- Esecuzione di `neofetch` per mostrare informazioni sul sistema all’avvio.
-- Commenti guida su come personalizzare ulteriormente il profilo (es. variabili di ambiente, editor preferito, comportamento di aggiornamento).
-
-### Come usare
-1. Assicurati di avere Oh My Zsh installato.
-2. Copia questo file come `.zshrc` nella tua home directory (`~`).
-3. Riapri il terminale o esegui `source ~/.zshrc` per applicare le modifiche.
+This repository contains configuration files for customizing **Zsh** and **PowerShell** terminal environments. Both profiles are designed to enhance user experience, improve productivity, and speed up terminal workflows.
 
 ---
 
-## Profilo PowerShell (`Microsoft.PowerShell_profile.ps1`)
+## Zsh Profile (`.zshrc`)
 
-### Descrizione
-Questo file configura la shell **PowerShell** con alcune personalizzazioni utili per un ambiente Windows.
+### Description
+This file configures the **Zsh** shell using the [Oh My Zsh](https://ohmyz.sh/) framework. It includes theme customization, useful plugins, performance optimizations, and startup utilities.
 
-### Caratteristiche principali:
-- Importa il modulo `Terminal-Icons` per visualizzare icone nel terminale.
-- Esegue `winfetch` all’avvio per visualizzare informazioni sul sistema.
-- Definisce alias personalizzati per liste di file e directory (`ll` e `la`).
-- Integra l’inizializzazione di `oh-my-posh` con un tema configurato (`robbyrussell.omp.json`) per arricchire il prompt.
-  
-### Come usare
-1. Copia questo file nel percorso del profilo PowerShell. Puoi scoprire il percorso eseguendo in PowerShell:
+### Key Features:
+- **Theme**: Uses the `robbyrussell` theme (configurable to random themes)
+- **Performance Monitoring**: Measures and displays profile load time in milliseconds
+- **Plugins**: 
+  - `git` - Git integration and aliases
+  - `zsh-autosuggestions` - Command suggestions based on history
+  - `zsh-syntax-highlighting` - Real-time syntax highlighting
+  - `you-should-use` - Reminds you of existing aliases
+  - `zsh-bat` - Enhanced file viewing with syntax highlighting
+- **System Information**: Displays Zsh version on startup
+- **Smart Fetch**: Runs `fastfetch` only once per session using a flag file
+- **Customizable**: Supports custom plugins and aliases in `$ZSH_CUSTOM` directory
+- **Configurable Options**: Commented guidance for PATH, editor, environment variables, and auto-update behavior
+
+### Installation & Usage
+1. Ensure [Oh My Zsh](https://ohmyz.sh/) is installed on your system
+2. Copy or symlink this file as `.zshrc` to your home directory (`~`)
+3. Install the required plugins:
+   ```bash
+   git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+   git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+   git clone https://github.com/MichaelAquilina/zsh-you-should-use ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/you-should-use
+   git clone https://github.com/fdellwing/zsh-bat ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-bat
+   ```
+4. Install `fastfetch` for system information display
+5. Reload your terminal or run `source ~/.zshrc` to apply changes
+
+---
+
+## PowerShell Profile (`profile.ps1`)
+
+### Description
+This file configures **PowerShell** with customizations optimized for Windows environments, featuring Oh My Posh integration and enhanced terminal visuals.
+
+### Key Features:
+- **Oh My Posh Integration**: Initializes with the `robbyrussell` theme for a beautiful, informative prompt
+- **Terminal Icons**: Imports the `Terminal-Icons` module for file and folder icons
+- **Smart Fetch**: Runs `winfetch` only once per session using a flag file
+- **Custom Aliases**:
+  - `ll` - List all files including hidden (`Get-ChildItem -Force`)
+  - `la` - Recursively list all files (`Get-ChildItem -Force -Recurse`)
+
+### Installation & Usage
+1. Install prerequisites:
+   ```powershell
+   # Install Oh My Posh
+   winget install JanDeDobbeleer.OhMyPosh -s winget
+   
+   # Install Terminal-Icons module
+   Install-Module -Name Terminal-Icons -Repository PSGallery
+   
+   # Install winfetch
+   Install-Script -Name winfetch
+   ```
+
+2. Find your PowerShell profile path:
    ```powershell
    $PROFILE
-   
+   ```
+
+3. Copy the `profile.ps1` content to your PowerShell profile location
+
+4. Create the Oh My Posh theme directory and ensure the `robbyrussell.omp.json` theme is available:
+   ```powershell
+   # Theme should be located at: $HOME\oh-my-posh\robbyrussell.omp.json
+   ```
+
+5. Restart PowerShell or run:
+   ```powershell
+   . $PROFILE
+   ```
+
+---
+
+## Repository Structure
+```
+.
+├── .zshrc.txt          # Zsh configuration file
+├── profile.ps1         # PowerShell configuration file
+└── README.md           # This file
+```
+
+---
+
+## Customization Tips
+
+### For Zsh:
+- Modify `ZSH_THEME` to change the prompt appearance
+- Add custom aliases in `$ZSH_CUSTOM/aliases.zsh`
+- Adjust plugins in the `plugins=()` array
+- Uncomment configuration options to enable features like auto-correction, case-sensitive completion, etc.
+
+### For PowerShell:
+- Change the Oh My Posh theme by modifying the `--config` path
+- Add more aliases following the `Set-Alias` pattern
+- Import additional modules for extended functionality
+- Customize the prompt by editing or creating your own `.omp.json` theme file
+
+---
+
+## Requirements
+
+### Zsh Profile:
+- Zsh shell
+- Oh My Zsh framework
+- Git
+- fastfetch (optional but recommended)
+- Nerd Fonts (recommended for icons and glyphs)
+
+### PowerShell Profile:
+- PowerShell 5.1 or later (PowerShell 7+ recommended)
+- Oh My Posh
+- Terminal-Icons module
+- winfetch
+- Nerd Fonts (required for proper icon display)
+
+---
+
+## Contributing
+Feel free to fork this repository and customize the configurations to your needs. Suggestions and improvements are welcome!
+
+---
+
+## License
+These configuration files are provided as-is for personal use and customization.
