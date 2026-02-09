@@ -1,6 +1,13 @@
 # Shell Configuration Profiles
 
-This repository contains configuration files for customizing **Zsh** and **PowerShell** terminal environments. Both profiles are designed to enhance user experience, improve productivity, and speed up terminal workflows.
+This repository contains configuration files for customizing **Zsh** and **PowerShell** terminal environments. These configurations are designed to be used with **Windows Terminal**, **PowerShell** for Windows, and **WSL (Windows Subsystem for Linux)** with **Debian** distribution. Both profiles enhance user experience, improve productivity, and speed up terminal workflows.
+
+## Setup Context
+
+This configuration is specifically designed for:
+- **Windows Terminal** - as the main terminal application
+- **PowerShell** - for Windows command-line operations
+- **WSL with Debian** - for Linux development environment with Zsh
 
 ---
 
