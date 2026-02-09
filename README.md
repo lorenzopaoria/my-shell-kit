@@ -83,6 +83,83 @@ This file configures **PowerShell** with customizations optimized for Windows en
 
 ---
 
+## Windows Terminal Configuration (`settings.json`)
+
+### Description
+This section provides the recommended configuration for **Windows Terminal** to properly display Oh My Posh themes, icons, and colors.
+
+### Configuration
+Add or update the following settings in your Windows Terminal `settings.json` file:
+
+```json
+{
+    "profiles": {
+        "defaults": {
+            "font": {
+                "face": "CaskaydiaCove Nerd Font",
+                "size": 10
+            },
+            "colorScheme": "One Half Dark",
+            "opacity": 95,
+            "useAcrylic": false
+        }
+    },
+    "schemes": [
+        {
+            "name": "One Half Dark",
+            "background": "#282C34",
+            "foreground": "#DCDFE4",
+            "black": "#282C34",
+            "blue": "#61AFEF",
+            "cyan": "#56B6C2",
+            "green": "#98C379",
+            "purple": "#C678DD",
+            "red": "#E06C75",
+            "white": "#DCDFE4",
+            "yellow": "#E5C07B",
+            "brightBlack": "#5A6374",
+            "brightBlue": "#61AFEF",
+            "brightCyan": "#56B6C2",
+            "brightGreen": "#98C379",
+            "brightPurple": "#C678DD",
+            "brightRed": "#E06C75",
+            "brightWhite": "#DCDFE4",
+            "brightYellow": "#E5C07B"
+        }
+    ]
+}
+```
+
+### Key Settings:
+- **Font**: Uses `CaskaydiaCove Nerd Font` (or any Nerd Font of your choice) to properly display icons and glyphs
+- **Color Scheme**: Configured with "One Half Dark" theme for a modern, easy-on-the-eyes color palette
+- **Opacity**: Set to 95% for subtle transparency
+- **Acrylic**: Disabled for better performance
+
+### Installation:
+1. Install a Nerd Font (e.g., CaskaydiaCove Nerd Font):
+   ```powershell
+   # Using Oh My Posh font installer
+   oh-my-posh font install
+   ```
+
+2. Open Windows Terminal settings (`Ctrl+,` or click the dropdown menu → Settings)
+
+3. Click "Open JSON file" at the bottom left
+
+4. Add or merge the configuration above into your `settings.json`
+
+5. Save the file and restart Windows Terminal
+
+### Alternative Fonts:
+You can use any Nerd Font instead of CaskaydiaCove. Popular choices include:
+- `FiraCode Nerd Font`
+- `JetBrainsMono Nerd Font`
+- `MesloLGS Nerd Font`
+- `Hack Nerd Font`
+
+---
+
 ## Repository Structure
 ```
 .
@@ -107,6 +184,12 @@ This file configures **PowerShell** with customizations optimized for Windows en
 - Import additional modules for extended functionality
 - Customize the prompt by editing or creating your own `.omp.json` theme file
 
+### For Windows Terminal:
+- Modify the font face and size to your preference
+- Customize color schemes or use built-in schemes
+- Adjust opacity and acrylic effects for visual preferences
+- Create profile-specific settings for different shells (PowerShell, CMD, WSL)
+
 ---
 
 ## Requirements
@@ -124,6 +207,11 @@ This file configures **PowerShell** with customizations optimized for Windows en
 - Terminal-Icons module
 - winfetch
 - Nerd Fonts (required for proper icon display)
+
+### Windows Terminal:
+- Windows Terminal (available from Microsoft Store or GitHub)
+- Nerd Font installed on your system
+- Windows 10 version 1903 or later
 
 ---
 
