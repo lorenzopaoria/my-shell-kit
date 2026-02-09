@@ -106,11 +106,13 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# print zsh version
-echo "Zsh version: $ZSH_VERSION"
+echo "Zsh $ZSH_VERSION"
+FLAG="$HOME/.fastfetch_ran"
 
-# neofetch on startup
-neofetch
+if [[ ! -f "$FLAG" ]]; then
+    fastfetch
+    touch "$FLAG"
+fi
 
 # Fine misurazione tempo
 ZSH_END_TIME=$(date +%s%3N)
