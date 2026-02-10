@@ -26,7 +26,10 @@ This file configures the **Zsh** shell using the [Oh My Zsh](https://ohmyz.sh/) 
   - `you-should-use` - Reminds you of existing aliases
   - `zsh-bat` - Enhanced file viewing with syntax highlighting
 - **System Information**: Displays Zsh version on startup
-- **Smart Fetch**: Runs `fastfetch` only once per session using a flag file
+- **Smart Fetch on First Boot**: Runs `fastfetch` only once on the first terminal session after each system boot
+  - Uses a flag file mechanism (`/tmp/.fastfetch_ran_$(whoami)`) that stores the boot time
+  - Prevents repeated execution across multiple terminal windows in the same boot session
+  - Automatically resets after system reboot for fresh system information display
 - **Customizable**: Supports custom plugins and aliases in `$ZSH_CUSTOM` directory
 - **Configurable Options**: Commented guidance for PATH, editor, environment variables, and auto-update behavior
 
@@ -53,7 +56,10 @@ This file configures **PowerShell** with customizations optimized for Windows en
 ### Key Features:
 - **Oh My Posh Integration**: Initializes with the `robbyrussell` theme for a beautiful, informative prompt
 - **Terminal Icons**: Imports the `Terminal-Icons` module for file and folder icons
-- **Smart Fetch**: Runs `winfetch` only once per session using a flag file
+- **Smart Fetch on First Boot**: Runs `winfetch` only once on the first terminal session after each system boot
+  - Uses a flag file mechanism (`$env:TEMP\.winfetch_ran`) that stores the last boot time
+  - Prevents repeated execution across multiple terminal windows in the same boot session
+  - Automatically resets after system reboot for fresh system information display
 - **Custom Aliases**:
   - `ll` - List all files including hidden (`Get-ChildItem -Force`)
   - `la` - Recursively list all files (`Get-ChildItem -Force -Recurse`)
@@ -150,7 +156,7 @@ Add or update the following settings in your Windows Terminal `settings.json` fi
    oh-my-posh font install
    ```
 
-2. Open Windows Terminal settings (`Ctrl+,` or click the dropdown menu → Settings)
+2. Open Windows Terminal settings (`Ctrl+,+` or click the dropdown menu → Settings)
 
 3. Click "Open JSON file" at the bottom left
 
@@ -170,7 +176,7 @@ You can use any Nerd Font instead of CaskaydiaCove. Popular choices include:
 ## Repository Structure
 ```
 .
-├── .zshrc.txt          # Zsh configuration file
+├── .zshrc              # Zsh configuration file
 ├── profile.ps1         # PowerShell configuration file
 └── README.md           # This file
 ```
@@ -205,14 +211,14 @@ You can use any Nerd Font instead of CaskaydiaCove. Popular choices include:
 - Zsh shell
 - Oh My Zsh framework
 - Git
-- fastfetch (optional but recommended)
+- fastfetch (optional but recommended for system information display)
 - Nerd Fonts (recommended for icons and glyphs)
 
 ### PowerShell Profile:
 - PowerShell 5.1 or later (PowerShell 7+ recommended)
 - Oh My Posh
 - Terminal-Icons module
-- winfetch
+- winfetch (optional but recommended for system information display)
 - Nerd Fonts (required for proper icon display)
 
 ### Windows Terminal:
