@@ -107,12 +107,13 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 echo "Zsh $ZSH_VERSION"
-# /tmp viene svuotato ad ogni riavvio, quindi fastfetch parte una volta per boot
+# fastfetch solo al primo terminale dopo ogni boot
 FLAG="/tmp/.fastfetch_ran_$(whoami)"
+BOOT_TIME=$(uptime -s 2>/dev/null || sysctl -n kern.boottime 2>/dev/null)
 
-if [[ ! -f "$FLAG" ]]; then
+if [[ ! -f "$FLAG" ]] || [[ "$(cat "$FLAG")" != "$BOOT_TIME" ]]; then
     fastfetch
-    touch "$FLAG"
+    echo "$BOOT_TIME" > "$FLAG"
 fi
 
 # Fine misurazione tempo

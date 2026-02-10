@@ -5,11 +5,11 @@ Import-Module Terminal-Icons
 
 # winfetch solo al primo avvio per sessione (una volta per boot)
 $flag = "$env:TEMP\.winfetch_ran"
-$bootTime = (Get-CimInstance Win32_OperatingSystem).LastBootUpTime
+$bootTime = (Get-CimInstance Win32_OperatingSystem).LastBootUpTime.ToString("o")
 
-if (-Not (Test-Path $flag) -or (Get-Item $flag).LastWriteTime -lt $bootTime) {
+if (-Not (Test-Path $flag) -or (Get-Content $flag -Raw).Trim() -ne $bootTime) {
     winfetch
-    New-Item -ItemType File -Path $flag -Force | Out-Null
+    $bootTime | Out-File -FilePath $flag -Force
 }
 
 
