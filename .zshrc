@@ -109,9 +109,11 @@ source $ZSH/oh-my-zsh.sh
 echo "Zsh $ZSH_VERSION"
 # fastfetch solo al primo terminale dopo ogni boot
 FLAG="/tmp/.fastfetch_ran_$(whoami)"
-BOOT_TIME=$(uptime -s 2>/dev/null || sysctl -n kern.boottime 2>/dev/null)
+BOOT_TIME="$(uptime -s 2>/dev/null || sysctl -n kern.boottime 2>/dev/null)"
+STORED_TIME=""
+[[ -f "$FLAG" ]] && STORED_TIME="$(cat "$FLAG" 2>/dev/null)"
 
-if [[ ! -f "$FLAG" ]] || [[ "$(cat "$FLAG")" != "$BOOT_TIME" ]]; then
+if [[ "$STORED_TIME" != "$BOOT_TIME" ]]; then
     fastfetch
     echo "$BOOT_TIME" > "$FLAG"
 fi
