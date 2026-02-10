@@ -109,10 +109,17 @@ source $ZSH/oh-my-zsh.sh
 echo "Zsh $ZSH_VERSION"
 # fastfetch solo al primo terminale dopo ogni boot
 FLAG="/tmp/.fastfetch_ran_$(whoami)"
-# btime da /proc/stat è il metodo più affidabile su Linux/WSL
-BOOT_TIME="$(awk '/^btime/ {print $2}' /proc/stat 2>/dev/null)"
-# fallback per macOS
-[[ -z "$BOOT_TIME" ]] && BOOT_TIME="$(sysctl -n kern.boottime 2>/dev/null)"
+
+# Determina il boot time in base al sistema
+if [[ -f /proc/version ]] && grep -qi microsoft /proc/version 2>/dev/null; then
+    # WSL: usa il boot time di Windows tramite interop
+    BOOT_TIME="$(powershell.exe -NoProfile -Command '(Get-CimInstance Win32_OperatingSystem).LastBootUpTime.ToString("o")' 2>/dev/null | tr -d '\r')"
+else
+    # Linux nativo: btime da /proc/stat
+    BOOT_TIME="$(awk '/^btime/ {print $2}' /proc/stat 2>/dev/null)"
+    # macOS fallback
+    [[ -z "$BOOT_TIME" ]] && BOOT_TIME="$(sysctl -n kern.boottime 2>/dev/null)"
+fi
 
 STORED_TIME=""
 [[ -f "$FLAG" ]] && STORED_TIME="$(cat "$FLAG" 2>/dev/null)"
