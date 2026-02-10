@@ -107,7 +107,8 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 echo "Zsh $ZSH_VERSION"
-FLAG="$HOME/.fastfetch_ran"
+# /tmp viene svuotato ad ogni riavvio, quindi fastfetch parte una volta per boot
+FLAG="/tmp/.fastfetch_ran_$(whoami)"
 
 if [[ ! -f "$FLAG" ]]; then
     fastfetch
