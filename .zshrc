@@ -109,11 +109,15 @@ source $ZSH/oh-my-zsh.sh
 echo "Zsh $ZSH_VERSION"
 # fastfetch solo al primo terminale dopo ogni boot
 FLAG="/tmp/.fastfetch_ran_$(whoami)"
-BOOT_TIME="$(uptime -s 2>/dev/null || sysctl -n kern.boottime 2>/dev/null)"
+# btime da /proc/stat è il metodo più affidabile su Linux/WSL
+BOOT_TIME="$(awk '/^btime/ {print $2}' /proc/stat 2>/dev/null)"
+# fallback per macOS
+[[ -z "$BOOT_TIME" ]] && BOOT_TIME="$(sysctl -n kern.boottime 2>/dev/null)"
+
 STORED_TIME=""
 [[ -f "$FLAG" ]] && STORED_TIME="$(cat "$FLAG" 2>/dev/null)"
 
-if [[ "$STORED_TIME" != "$BOOT_TIME" ]]; then
+if [[ -z "$BOOT_TIME" ]] || [[ "$STORED_TIME" != "$BOOT_TIME" ]]; then
     fastfetch
     echo "$BOOT_TIME" > "$FLAG"
 fi
