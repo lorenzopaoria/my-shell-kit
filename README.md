@@ -11,15 +11,22 @@ This configuration is specifically designed for:
 
 ---
 
-## Zsh Profile (`.zshrc`)
+## Zsh Profiles
 
 ### Description
-This file configures the **Zsh** shell using the [Oh My Zsh](https://ohmyz.sh/) framework. It includes theme customization, useful plugins, performance optimizations, and startup utilities.
+This repository includes multiple **Zsh** configuration profiles (built around [Oh My Zsh](https://ohmyz.sh/)) so you can pick the one that best matches your environment.
 
-### Key Features:
+### Available profiles
+
+| File | Intended environment | Notes |
+|---|---|---|
+| `.zshrc_my_fedora` | Fedora (native Linux) | Fedora-focused tweaks and defaults |
+| `.zshrc_wsl_macos_linux` | WSL (Debian), macOS, and other Linux distros | A more general-purpose profile for WSL/macOS/Linux |
+
+### Common Key Features (varies slightly per profile)
 - **Theme**: Uses the `robbyrussell` theme (configurable to random themes)
 - **Performance Monitoring**: Measures and displays profile load time in milliseconds
-- **Plugins**: 
+- **Plugins**:
   - `git` - Git integration and aliases
   - `zsh-autosuggestions` - Command suggestions based on history
   - `zsh-syntax-highlighting` - Real-time syntax highlighting
@@ -35,16 +42,26 @@ This file configures the **Zsh** shell using the [Oh My Zsh](https://ohmyz.sh/) 
 
 ### Installation & Usage
 1. Ensure [Oh My Zsh](https://ohmyz.sh/) is installed on your system
-2. Copy or symlink this file as `.zshrc` to your home directory (`~`)
-3. Install the required plugins:
+2. Choose the profile that matches your environment:
+   - Fedora: `.zshrc_my_fedora`
+   - WSL/macOS/Linux: `.zshrc_wsl_macos_linux`
+3. Copy (or symlink) the chosen profile to `~/.zshrc`:
+   ```bash
+   # Example (copy)
+   cp .zshrc_my_fedora ~/.zshrc
+
+   # Example (symlink)
+   ln -sf "$(pwd)/.zshrc_my_fedora" ~/.zshrc
+   ```
+4. Install the required plugins:
    ```bash
    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
    git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
    git clone https://github.com/MichaelAquilina/zsh-you-should-use ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/you-should-use
    git clone https://github.com/fdellwing/zsh-bat ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-bat
    ```
-4. Install `fastfetch` for system information display
-5. Reload your terminal or run `source ~/.zshrc` to apply changes
+5. Install `fastfetch` for system information display
+6. Reload your terminal or run `source ~/.zshrc` to apply changes
 
 ---
 
@@ -176,9 +193,11 @@ You can use any Nerd Font instead of CaskaydiaCove. Popular choices include:
 ## Repository Structure
 ```
 .
-├── .zshrc              # Zsh configuration file
-├── profile.ps1         # PowerShell configuration file
-└── README.md           # This file
+├── .zshrc_my_fedora        # Zsh configuration (Fedora)
+├── .zshrc_wsl_macos_linux  # Zsh configuration (WSL/macOS/Linux)
+├── profile.ps1             # PowerShell configuration file
+├── settings.json           # Windows Terminal configuration
+└── README.md               # This file
 ```
 
 ---
