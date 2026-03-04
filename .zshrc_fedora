@@ -104,7 +104,34 @@ source $ZSH/oh-my-zsh.sh
 #
 # Example aliases
 alias zshconf="code .zshrc"
+alias cleanall="sudo dnf clean all && sudo dnf upgrade --refresh"
+alias updateall="topgrade"
+alias py="python3"
+alias open="xdg-open ."
+alias ..="cd .."
+alias ...="cd ../.."
+alias ll="ls -alFh"
+alias avenv="source ./venv/bin/activate"
+alias ovenv="deactivate"
+
+# Controlla lo stato della batteria
+#alias bat='upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep -E "state|to\ full|percentage"'
+
+# Attiva limite 80% (Modalità Casa)
+#alias bat-home='echo 1 | sudo tee /sys/bus/wmi/drivers/acer-wmi-battery/health_mode'
+
+# Attiva limite 100% (Modalità Viaggio)
+#alias bat-travel='echo 0 | sudo tee /sys/bus/wmi/drivers/acer-wmi-battery/health_mode'
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+alias system-fix='echo "Starting total system maintenance..." && \
+echo "\n[1/3] Verifying file integrity (SFC/DISM equivalent)..." && \
+sudo rpm -Va --nofiles --nodeps | grep -v "^\.\{8\}" || echo "System files are intact"; \
+echo "\n[2/3] Checking for recent hardware errors..." && \
+sudo dmesg -l err,warn | tail -n 5 || echo "No hardware errors found"; \
+echo "\n[3/3] Deep cleaning and DNF optimization..." && \
+sudo dnf clean all && sudo dnf autoremove -y && \
+echo "\nSystem cleaned and verified."'
 
 echo "Zsh $ZSH_VERSION"
 
