@@ -102,9 +102,14 @@ source $ZSH/oh-my-zsh.sh
 # - $ZSH_CUSTOM/macos.zsh
 # For a full list of active aliases, run `alias`.
 #
-# Example aliases
-alias zshconf="code .zshrc"
-alias cleanall="sudo dnf clean all && sudo dnf upgrade --refresh"
+# export nvidia
+export PATH=/usr/local/cuda/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+#
+# aliases
+alias zshconf="code ~/.zshrc"
+alias fetchconf="code ~/.config/fastfetch/config.jsonc"
+alias cleanall="sudo dnf autoremove && sudo dnf clean all && sudo dnf upgrade --refresh"
 alias updateall="topgrade"
 alias py="python3"
 alias open="xdg-open ."
@@ -113,26 +118,14 @@ alias ...="cd ../.."
 alias ll="ls -alFh"
 alias avenv="source ./venv/bin/activate"
 alias ovenv="deactivate"
+alias system-fix='echo "\e[1;34m── $(date +%H:%M:%S) - Verifica integrità RPM ──────────────────────────────────────\e[0m"; sudo rpm -Va --nofiles --nodeps | grep -v "^\.\{8\}" || echo "File di sistema integri."; echo "\e[1;34m── $(date +%H:%M:%S) - Errori Hardware (dmesg) ──────────────────────────────────\e[0m"; sudo dmesg -l err,warn | tail -n 5; echo "\e[1;34m── $(date +%H:%M:%S) - Pulizia DNF & Orfani ─────────────────────────────────────\e[0m"; sudo dnf clean all && sudo dnf autoremove -y && dnf repoquery --extras --unneeded | xargs -r sudo dnf remove -y; echo "\e[1;34m── $(date +%H:%M:%S) - Flatpak Unused ───────────────────────────────────────────\e[0m"; flatpak uninstall --unused -y; echo "\e[1;34m── $(date +%H:%M:%S) - Journald Logs ────────────────────────────────────────────\e[0m"; sudo journalctl --vacuum-time=2d; echo "\e[1;34m── $(date +%H:%M:%S) - Crash Logs & Trash ───────────────────────────────────────\e[0m"; sudo find /var/spool/abrt/ -mindepth 1 -delete 2>/dev/null && echo "ABRT pulito."; rm -rf ~/.local/share/Trash/* 2>/dev/null && echo "Cestino svuotato."; echo "\n\e[1;32m✔ Manutenzione completata con successo!\e[0m"'
+# Status della batteria e del limite 80%
+alias bat-status='echo "\e[1;34m── $(date +%H:%M:%S) - Acer Health Status ───────────────────────\e[0m"; h_status=$(cat /sys/bus/wmi/drivers/acer-wmi-battery/health_mode 2>/dev/null); if [ "$h_status" = "1" ]; then echo "\e[1;32mON - Limite 80% ATTIVO\e[0m"; else echo "\e[1;31mOFF - Carica libera al 100%\e[0m"; fi; echo "\e[1;34m── $(date +%H:%M:%S) - Info Generali ──────────────────────────────────────────\e[0m"; echo "    temperatura:         $(awk "{print \$1/1000}" /sys/bus/wmi/drivers/acer-wmi-battery/temperature 2>/dev/null)°C"; upower -i $(upower -e | grep BAT) | grep --color=never -E "state|percentage|capacity"; echo "\n\e[1;32m✔ Driver MOK Signed operativo.\e[0m\n"'
+alias bat-80="echo 1 | sudo tee /sys/bus/wmi/drivers/acer-wmi-battery/health_mode"
+alias bat-100="echo 0 | sudo tee /sys/bus/wmi/drivers/acer-wmi-battery/health_mode"
+alias fix-bat='~/.ripristina-batteria.sh'
 
-# Controlla lo stato della batteria
-#alias bat='upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep -E "state|to\ full|percentage"'
-
-# Attiva limite 80% (Modalità Casa)
-#alias bat-home='echo 1 | sudo tee /sys/bus/wmi/drivers/acer-wmi-battery/health_mode'
-
-# Attiva limite 100% (Modalità Viaggio)
-#alias bat-travel='echo 0 | sudo tee /sys/bus/wmi/drivers/acer-wmi-battery/health_mode'
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-alias system-fix='echo "Starting total system maintenance..." && \
-echo "\n[1/3] Verifying file integrity (SFC/DISM equivalent)..." && \
-sudo rpm -Va --nofiles --nodeps | grep -v "^\.\{8\}" || echo "System files are intact"; \
-echo "\n[2/3] Checking for recent hardware errors..." && \
-sudo dmesg -l err,warn | tail -n 5 || echo "No hardware errors found"; \
-echo "\n[3/3] Deep cleaning and DNF optimization..." && \
-sudo dnf clean all && sudo dnf autoremove -y && \
-echo "\nSystem cleaned and verified."'
-
+# Stampa versione Zsh
 echo "Zsh $ZSH_VERSION"
 
 # Fine misurazione tempo
