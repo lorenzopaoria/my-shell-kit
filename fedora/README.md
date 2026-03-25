@@ -70,7 +70,7 @@ source ~/.zshrc
 - Startup time measurement and shell load log message.
 - One-time-per-boot `fastfetch` display.
 - Quality-of-life aliases (`ll`, `..`, virtualenv helpers, etc.).
-- Fedora maintenance aliases (`cleanall`, `updateall`, `system-fix`).
+- Fedora maintenance aliases (`cleanall`, `bat-status`, `sys-check`).
 - Optional Acer battery helper aliases.
 
 ## Notes
