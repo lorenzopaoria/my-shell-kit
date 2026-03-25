@@ -1,256 +1,125 @@
-# Shell Configuration Profiles
+# My Shell Kit
 
-This repository contains configuration files for customizing **Zsh** and **PowerShell** terminal environments. These configurations are designed to be used with **Windows Terminal**, **PowerShell** for Windows, and **WSL (Windows Subsystem for Linux)** with **Debian** distribution. Both profiles enhance user experience, improve productivity, and speed up terminal workflows.
+Raccolta di file di configurazione per personalizzare **Zsh** e **PowerShell** (pensata per **Windows Terminal** e per lavorare sia su **Fedora** che su **Windows/WSL**).
 
-## Setup Context
-
-This configuration is specifically designed for:
-- **Windows Terminal** - as the main terminal application
-- **PowerShell** - for Windows command-line operations
-- **WSL with Debian** - for Linux development environment with Zsh
+## Contesto / Target
+- **Windows Terminal** come terminal principale
+- **PowerShell** per l’ambiente Windows
+- **Zsh** per l’ambiente Linux (Fedora / WSL)
 
 ---
 
-## Zsh Profiles
+## Struttura della repository
 
-### Description
-This repository includes multiple **Zsh** configuration profiles (built around [Oh My Zsh](https://ohmyz.sh/)) so you can pick the one that best matches your environment.
-
-### Available profiles
-
-| File | Intended environment | Notes |
-|---|---|---|
-| `.zshrc_my_fedora` | Fedora (native Linux) | Fedora-focused tweaks and defaults |
-| `.zshrc_wsl_macos_linux` | WSL (Debian), macOS, and other Linux distros | A more general-purpose profile for WSL/macOS/Linux |
-
-### Common Key Features (varies slightly per profile)
-- **Theme**: Uses the `robbyrussell` theme (configurable to random themes)
-- **Performance Monitoring**: Measures and displays profile load time in milliseconds
-- **Plugins**:
-  - `git` - Git integration and aliases
-  - `zsh-autosuggestions` - Command suggestions based on history
-  - `zsh-syntax-highlighting` - Real-time syntax highlighting
-  - `you-should-use` - Reminds you of existing aliases
-  - `zsh-bat` - Enhanced file viewing with syntax highlighting
-- **System Information**: Displays Zsh version on startup
-- **Smart Fetch on First Boot**: Runs `fastfetch` only once on the first terminal session after each system boot
-  - Uses a flag file mechanism (`/tmp/.fastfetch_ran_$(whoami)`) that stores the boot time
-  - Prevents repeated execution across multiple terminal windows in the same boot session
-  - Automatically resets after system reboot for fresh system information display
-- **Customizable**: Supports custom plugins and aliases in `$ZSH_CUSTOM` directory
-- **Configurable Options**: Commented guidance for PATH, editor, environment variables, and auto-update behavior
-
-### Installation & Usage
-1. Ensure [Oh My Zsh](https://ohmyz.sh/) is installed on your system
-2. Choose the profile that matches your environment:
-   - Fedora: `.zshrc_my_fedora`
-   - WSL/macOS/Linux: `.zshrc_wsl_macos_linux`
-3. Copy (or symlink) the chosen profile to `~/.zshrc`:
-   ```bash
-   # Example (copy)
-   cp .zshrc_my_fedora ~/.zshrc
-
-   # Example (symlink)
-   ln -sf "$(pwd)/.zshrc_my_fedora" ~/.zshrc
-   ```
-4. Install the required plugins:
-   ```bash
-   git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-   git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-   git clone https://github.com/MichaelAquilina/zsh-you-should-use ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/you-should-use
-   git clone https://github.com/fdellwing/zsh-bat ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-bat
-   ```
-5. Install `fastfetch` for system information display
-6. Reload your terminal or run `source ~/.zshrc` to apply changes
-
----
-
-## PowerShell Profile (`profile.ps1`)
-
-### Description
-This file configures **PowerShell** with customizations optimized for Windows environments, featuring Oh My Posh integration and enhanced terminal visuals.
-
-### Key Features:
-- **Oh My Posh Integration**: Initializes with the `robbyrussell` theme for a beautiful, informative prompt
-- **Terminal Icons**: Imports the `Terminal-Icons` module for file and folder icons
-- **Smart Fetch on First Boot**: Runs `winfetch` only once on the first terminal session after each system boot
-  - Uses a flag file mechanism (`$env:TEMP\.winfetch_ran`) that stores the last boot time
-  - Prevents repeated execution across multiple terminal windows in the same boot session
-  - Automatically resets after system reboot for fresh system information display
-- **Custom Aliases**:
-  - `ll` - List all files including hidden (`Get-ChildItem -Force`)
-  - `la` - Recursively list all files (`Get-ChildItem -Force -Recurse`)
-
-### Installation & Usage
-1. Install prerequisites:
-   ```powershell
-   # Install Oh My Posh
-   winget install JanDeDobbeleer.OhMyPosh -s winget
-   
-   # Install Terminal-Icons module
-   Install-Module -Name Terminal-Icons -Repository PSGallery
-   
-   # Install winfetch
-   Install-Script -Name winfetch
-   ```
-
-2. Find your PowerShell profile path:
-   ```powershell
-   $PROFILE
-   ```
-
-3. Copy the `profile.ps1` content to your PowerShell profile location
-
-4. Create the Oh My Posh theme directory and ensure the `robbyrussell.omp.json` theme is available:
-   ```powershell
-   # Theme should be located at: $HOME\oh-my-posh\robbyrussell.omp.json
-   ```
-
-5. Restart PowerShell or run:
-   ```powershell
-   . $PROFILE
-   ```
-
----
-
-## Windows Terminal Configuration (`settings.json`)
-
-### Description
-This section provides the recommended configuration for **Windows Terminal** to properly display Oh My Posh themes, icons, and colors.
-
-### Configuration
-Add or update the following settings in your Windows Terminal `settings.json` file:
-
-```json
-{
-    "profiles": {
-        "defaults": {
-            "font": {
-                "face": "CaskaydiaCove Nerd Font",
-                "size": 10
-            },
-            "colorScheme": "One Half Dark",
-            "opacity": 95,
-            "useAcrylic": false
-        }
-    },
-    "schemes": [
-        {
-            "name": "One Half Dark",
-            "background": "#282C34",
-            "foreground": "#DCDFE4",
-            "black": "#282C34",
-            "blue": "#61AFEF",
-            "cyan": "#56B6C2",
-            "green": "#98C379",
-            "purple": "#C678DD",
-            "red": "#E06C75",
-            "white": "#DCDFE4",
-            "yellow": "#E5C07B",
-            "brightBlack": "#5A6374",
-            "brightBlue": "#61AFEF",
-            "brightCyan": "#56B6C2",
-            "brightGreen": "#98C379",
-            "brightPurple": "#C678DD",
-            "brightRed": "#E06C75",
-            "brightWhite": "#DCDFE4",
-            "brightYellow": "#E5C07B"
-        }
-    ]
-}
-```
-
-### Key Settings:
-- **Font**: Uses `CaskaydiaCove Nerd Font` (or any Nerd Font of your choice) to properly display icons and glyphs
-- **Color Scheme**: Configured with "One Half Dark" theme for a modern, easy-on-the-eyes color palette
-- **Opacity**: Set to 95% for subtle transparency
-- **Acrylic**: Disabled for better performance
-
-### Installation:
-1. Install a Nerd Font (e.g., CaskaydiaCove Nerd Font):
-   ```powershell
-   # Using Oh My Posh font installer
-   oh-my-posh font install
-   ```
-
-2. Open Windows Terminal settings (`Ctrl+,+` or click the dropdown menu → Settings)
-
-3. Click "Open JSON file" at the bottom left
-
-4. Add or merge the configuration above into your `settings.json`
-
-5. Save the file and restart Windows Terminal
-
-### Alternative Fonts:
-You can use any Nerd Font instead of CaskaydiaCove. Popular choices include:
-- `FiraCode Nerd Font`
-- `JetBrainsMono Nerd Font`
-- `MesloLGS Nerd Font`
-- `Hack Nerd Font`
-
----
-
-## Repository Structure
-```
+```text
 .
-├── .zshrc_my_fedora        # Zsh configuration (Fedora)
-├── .zshrc_wsl_macos_linux  # Zsh configuration (WSL/macOS/Linux)
-├── profile.ps1             # PowerShell configuration file
-├── settings.json           # Windows Terminal configuration
-└── README.md               # This file
+├── fedora/
+│   ├── .zshrc                  # Profilo Zsh per Fedora
+│   ├── .ripristina-batteria.sh  # Script utility (Fedora)
+│   └── new.txt                  # File di test
+├── windows/
+│   ├── .zshrc                   # Profilo Zsh per Windows/WSL
+│   ├── profile.ps1              # Profilo PowerShell
+│   └── settings_terminal.json   # Config di Windows Terminal (esempio)
+└── README.md
 ```
 
 ---
 
-## Customization Tips
+## Zsh
 
-### For Zsh:
-- Modify `ZSH_THEME` to change the prompt appearance
-- Add custom aliases in `$ZSH_CUSTOM/aliases.zsh`
-- Adjust plugins in the `plugins=()` array
-- Uncomment configuration options to enable features like auto-correction, case-sensitive completion, etc.
+### Profili disponibili
+- `fedora/.zshrc` → profilo per Fedora (Linux nativo)
+- `windows/.zshrc` → profilo per Windows/WSL (Debian) / setup “ibridi”
 
-### For PowerShell:
-- Change the Oh My Posh theme by modifying the `--config` path
-- Add more aliases following the `Set-Alias` pattern
-- Import additional modules for extended functionality
-- Customize the prompt by editing or creating your own `.omp.json` theme file
+### Feature comuni (possono variare in base al profilo)
+- Basato su **Oh My Zsh**
+- Plugin tipici: `git`, `zsh-autosuggestions`, `zsh-syntax-highlighting`, `you-should-use`, `zsh-bat`
+- Misurazione del tempo di caricamento
+- “Fetch” una sola volta per boot (es. `fastfetch`), tramite file flag in `/tmp`
 
-### For Windows Terminal:
-- Modify the font face and size to your preference
-- Customize color schemes or use built-in schemes
-- Adjust opacity and acrylic effects for visual preferences
-- Create profile-specific settings for different shells (PowerShell, CMD, WSL)
+### Installazione rapida
+1. Installa **Oh My Zsh**
+2. Scegli il profilo:
+   - Fedora: `fedora/.zshrc`
+   - Windows/WSL: `windows/.zshrc`
+3. Copia o crea un symlink su `~/.zshrc`:
+
+```bash
+# esempio (copia)
+cp fedora/.zshrc ~/.zshrc
+
+# esempio (symlink)
+ln -sf "$(pwd)/fedora/.zshrc" ~/.zshrc
+```
+
+4. Installa i plugin (se non già presenti):
+
+```bash
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/MichaelAquilina/zsh-you-should-use ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/you-should-use
+git clone https://github.com/fdellwing/zsh-bat ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-bat
+```
 
 ---
 
-## Requirements
+## PowerShell (`windows/profile.ps1`)
 
-### Zsh Profile:
-- Zsh shell
-- Oh My Zsh framework
+### Feature
+- Inizializzazione prompt (es. **Oh My Posh**)
+- `Terminal-Icons`
+- “Fetch” una sola volta per boot (es. `winfetch`) tramite file flag in `%TEMP%`
+- Alias utili (`ll`, `la`, …)
+
+### Installazione rapida
+1. Installa i prerequisiti:
+
+```powershell
+winget install JanDeDobbeleer.OhMyPosh -s winget
+Install-Module -Name Terminal-Icons -Repository PSGallery
+Install-Script -Name winfetch
+```
+
+2. Trova il path del tuo profilo:
+
+```powershell
+$PROFILE
+```
+
+3. Copia il contenuto di `windows/profile.ps1` nel profilo PowerShell.
+
+---
+
+## Windows Terminal (`windows/settings_terminal.json`)
+File di esempio con font Nerd Font / colori / impostazioni consigliate per una resa corretta di icone e temi.
+
+---
+
+## Requisiti
+
+### Zsh
+- Zsh
+- Oh My Zsh
 - Git
-- fastfetch (optional but recommended for system information display)
-- Nerd Fonts (recommended for icons and glyphs)
+- `fastfetch` (opzionale)
+- Nerd Font (consigliato)
 
-### PowerShell Profile:
-- PowerShell 5.1 or later (PowerShell 7+ recommended)
+### PowerShell
+- PowerShell 5.1+ (consigliato PowerShell 7+)
 - Oh My Posh
-- Terminal-Icons module
-- winfetch (optional but recommended for system information display)
-- Nerd Fonts (required for proper icon display)
+- Terminal-Icons
+- `winfetch` (opzionale)
+- Nerd Font (necessario per icone)
 
-### Windows Terminal:
-- Windows Terminal (available from Microsoft Store or GitHub)
-- Nerd Font installed on your system
-- Windows 10 version 1903 or later
+### Windows Terminal
+- Windows Terminal
+- Nerd Font installato
 
 ---
 
 ## Contributing
-Feel free to fork this repository and customize the configurations to your needs. Suggestions and improvements are welcome!
-
----
+Fork e personalizza liberamente. PR e suggerimenti sono benvenuti.
 
 ## License
-These configuration files are provided as-is for personal use and customization.
+File forniti “as-is” per uso personale e personalizzazione.
