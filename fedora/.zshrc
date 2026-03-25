@@ -109,15 +109,14 @@ export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 # aliases
 alias zshconf="code ~/.zshrc"
 alias fetchconf="code ~/.config/fastfetch/config.jsonc"
-alias cleanall="sudo dnf autoremove && sudo dnf clean all && sudo dnf upgrade --refresh"
 alias py="python3"
 alias open="xdg-open ."
-alias ..="cd .."
-alias ...="cd ../.."
 alias ll="ls -alFh"
 alias avenv="source ./venv/bin/activate"
 alias ovenv="deactivate"
+# usato in sys-check
 alias system-fix='echo "\e[1;34m── $(date +%H:%M:%S) - RPM integrity check ────────────────────────────────────────\e[0m"; sudo rpm -Va --nofiles --nodeps | grep -v "^\.\{8\}" || echo "System files are consistent."; echo "\e[1;34m── $(date +%H:%M:%S) - Hardware errors (dmesg) ───────────────────────────────\e[0m"; sudo dmesg -l err,warn | tail -n 5; echo "\e[1;34m── $(date +%H:%M:%S) - DNF cleanup & orphan packages ───────────────────────────\e[0m"; sudo dnf clean all && sudo dnf autoremove -y && dnf repoquery --extras --unneeded | xargs -r sudo dnf remove -y; echo "\e[1;34m── $(date +%H:%M:%S) - Unused Flatpak packages ────────────────────────────────\e[0m"; flatpak uninstall --unused -y; echo "\e[1;34m── $(date +%H:%M:%S) - Journald logs cleanup ────────────────────────────────────\e[0m"; sudo journalctl --vacuum-time=2d; echo "\e[1;34m── $(date +%H:%M:%S) - Crash logs & trash cleanup ──────────────────────────────\e[0m"; sudo find /var/spool/abrt/ -mindepth 1 -delete 2>/dev/null && echo "ABRT cleaned."; rm -rf ~/.local/share/Trash/* 2>/dev/null && echo "Trash emptied."; echo "\n\e[1;32m✔ Maintenance completed successfully!\e[0m"'
+alias cleanall="sudo dnf autoremove && sudo dnf clean all && sudo dnf upgrade --refresh"
 # Battery status and 80% charge limit
 alias bat-status='echo "\e[1;34m── $(date +%H:%M:%S) - Acer health status ─────────────────────────\e[0m"; h_status=$(cat /sys/bus/wmi/drivers/acer-wmi-battery/health_mode 2>/dev/null); if [ "$h_status" = "1" ]; then echo "\e[1;32mON - 80% limit enabled\e[0m"; else echo "\e[1;31mOFF - Full 100% charging enabled\e[0m"; fi; echo "\e[1;34m── $(date +%H:%M:%S) - General battery information ──────────────────────────\e[0m"; echo "    temperature:         $(awk "{print \$1/1000}" /sys/bus/wmi/drivers/acer-wmi-battery/temperature 2>/dev/null)°C"; upower -i $(upower -e | grep BAT) | grep --color=never -E "state|percentage|capacity"; echo "\n\e[1;32m✔ Signed MOK driver is active.\e[0m\n"'
 alias bat-80="echo 1 | sudo tee /sys/bus/wmi/drivers/acer-wmi-battery/health_mode"
