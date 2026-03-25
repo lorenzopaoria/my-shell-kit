@@ -1,19 +1,19 @@
-# macOS Setup (Zsh + Oh My Zsh)
+# Fedora Setup (Zsh + Oh My Zsh)
 
-This folder contains a macOS-friendly Zsh setup.
+This folder contains a Fedora-focused Zsh configuration and helper aliases.
 
-## Requirements (Homebrew)
+## Requirements
 
-Install Homebrew if missing:
+Install the required packages with `dnf`:
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+sudo dnf install -y zsh git curl wget fastfetch bat util-linux-user
 ```
 
-Install required tools:
+Optional but recommended tools used by aliases:
 
 ```bash
-brew install zsh git curl wget fastfetch bat
+sudo dnf install -y topgrade flatpak upower
 ```
 
 ## Install and Enable Zsh
@@ -23,7 +23,7 @@ zsh --version
 chsh -s "$(which zsh)"
 ```
 
-Restart terminal session after changing shell.
+Log out and log back in after changing the default shell.
 
 ## Install Oh My Zsh
 
@@ -32,6 +32,8 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 ```
 
 ## Install Zsh Plugins (git clone)
+
+Clone custom plugins into Oh My Zsh custom plugins directory:
 
 ```bash
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
@@ -63,7 +65,16 @@ cp .zshrc ~/.zshrc
 source ~/.zshrc
 ```
 
+## What This Configuration Adds
+
+- Startup time measurement and shell load log message.
+- One-time-per-boot `fastfetch` display.
+- Quality-of-life aliases (`ll`, `..`, virtualenv helpers, etc.).
+- Fedora maintenance aliases (`cleanall`, `updateall`, `system-fix`).
+- Optional Acer battery helper aliases.
+
 ## Notes
 
-- This setup includes startup timing output and optional `fastfetch` on first terminal after boot.
-- If a plugin is missing, remove it from the `plugins=(...)` line until installed.
+- `system-fix`, battery aliases, and cleanup aliases can run privileged commands.
+- If `bat` command is missing, install package `bat`.
+- If you do not use Acer battery modules, battery aliases can be removed safely.

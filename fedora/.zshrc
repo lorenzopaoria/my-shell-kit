@@ -10,7 +10,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="robbyrussell"
 
-# Inizio misurazione tempo (millisecondi)
+# Start startup time measurement (milliseconds)
 ZSH_START_TIME=$(date +%s%3N)
 
 # Set list of themes to pick from when loading at random
@@ -110,7 +110,6 @@ export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 alias zshconf="code ~/.zshrc"
 alias fetchconf="code ~/.config/fastfetch/config.jsonc"
 alias cleanall="sudo dnf autoremove && sudo dnf clean all && sudo dnf upgrade --refresh"
-alias updateall="topgrade"
 alias py="python3"
 alias open="xdg-open ."
 alias ..="cd .."
@@ -118,29 +117,30 @@ alias ...="cd ../.."
 alias ll="ls -alFh"
 alias avenv="source ./venv/bin/activate"
 alias ovenv="deactivate"
-alias system-fix='echo "\e[1;34m── $(date +%H:%M:%S) - Verifica integrità RPM ──────────────────────────────────────\e[0m"; sudo rpm -Va --nofiles --nodeps | grep -v "^\.\{8\}" || echo "File di sistema integri."; echo "\e[1;34m── $(date +%H:%M:%S) - Errori Hardware (dmesg) ──────────────────────────────────\e[0m"; sudo dmesg -l err,warn | tail -n 5; echo "\e[1;34m── $(date +%H:%M:%S) - Pulizia DNF & Orfani ─────────────────────────────────────\e[0m"; sudo dnf clean all && sudo dnf autoremove -y && dnf repoquery --extras --unneeded | xargs -r sudo dnf remove -y; echo "\e[1;34m── $(date +%H:%M:%S) - Flatpak Unused ───────────────────────────────────────────\e[0m"; flatpak uninstall --unused -y; echo "\e[1;34m── $(date +%H:%M:%S) - Journald Logs ────────────────────────────────────────────\e[0m"; sudo journalctl --vacuum-time=2d; echo "\e[1;34m── $(date +%H:%M:%S) - Crash Logs & Trash ───────────────────────────────────────\e[0m"; sudo find /var/spool/abrt/ -mindepth 1 -delete 2>/dev/null && echo "ABRT pulito."; rm -rf ~/.local/share/Trash/* 2>/dev/null && echo "Cestino svuotato."; echo "\n\e[1;32m✔ Manutenzione completata con successo!\e[0m"'
-# Status della batteria e del limite 80%
-alias bat-status='echo "\e[1;34m── $(date +%H:%M:%S) - Acer Health Status ───────────────────────\e[0m"; h_status=$(cat /sys/bus/wmi/drivers/acer-wmi-battery/health_mode 2>/dev/null); if [ "$h_status" = "1" ]; then echo "\e[1;32mON - Limite 80% ATTIVO\e[0m"; else echo "\e[1;31mOFF - Carica libera al 100%\e[0m"; fi; echo "\e[1;34m── $(date +%H:%M:%S) - Info Generali ──────────────────────────────────────────\e[0m"; echo "    temperatura:         $(awk "{print \$1/1000}" /sys/bus/wmi/drivers/acer-wmi-battery/temperature 2>/dev/null)°C"; upower -i $(upower -e | grep BAT) | grep --color=never -E "state|percentage|capacity"; echo "\n\e[1;32m✔ Driver MOK Signed operativo.\e[0m\n"'
+alias system-fix='echo "\e[1;34m── $(date +%H:%M:%S) - RPM integrity check ────────────────────────────────────────\e[0m"; sudo rpm -Va --nofiles --nodeps | grep -v "^\.\{8\}" || echo "System files are consistent."; echo "\e[1;34m── $(date +%H:%M:%S) - Hardware errors (dmesg) ───────────────────────────────\e[0m"; sudo dmesg -l err,warn | tail -n 5; echo "\e[1;34m── $(date +%H:%M:%S) - DNF cleanup & orphan packages ───────────────────────────\e[0m"; sudo dnf clean all && sudo dnf autoremove -y && dnf repoquery --extras --unneeded | xargs -r sudo dnf remove -y; echo "\e[1;34m── $(date +%H:%M:%S) - Unused Flatpak packages ────────────────────────────────\e[0m"; flatpak uninstall --unused -y; echo "\e[1;34m── $(date +%H:%M:%S) - Journald logs cleanup ────────────────────────────────────\e[0m"; sudo journalctl --vacuum-time=2d; echo "\e[1;34m── $(date +%H:%M:%S) - Crash logs & trash cleanup ──────────────────────────────\e[0m"; sudo find /var/spool/abrt/ -mindepth 1 -delete 2>/dev/null && echo "ABRT cleaned."; rm -rf ~/.local/share/Trash/* 2>/dev/null && echo "Trash emptied."; echo "\n\e[1;32m✔ Maintenance completed successfully!\e[0m"'
+# Battery status and 80% charge limit
+alias bat-status='echo "\e[1;34m── $(date +%H:%M:%S) - Acer health status ─────────────────────────\e[0m"; h_status=$(cat /sys/bus/wmi/drivers/acer-wmi-battery/health_mode 2>/dev/null); if [ "$h_status" = "1" ]; then echo "\e[1;32mON - 80% limit enabled\e[0m"; else echo "\e[1;31mOFF - Full 100% charging enabled\e[0m"; fi; echo "\e[1;34m── $(date +%H:%M:%S) - General battery information ──────────────────────────\e[0m"; echo "    temperature:         $(awk "{print \$1/1000}" /sys/bus/wmi/drivers/acer-wmi-battery/temperature 2>/dev/null)°C"; upower -i $(upower -e | grep BAT) | grep --color=never -E "state|percentage|capacity"; echo "\n\e[1;32m✔ Signed MOK driver is active.\e[0m\n"'
 alias bat-80="echo 1 | sudo tee /sys/bus/wmi/drivers/acer-wmi-battery/health_mode"
 alias bat-100="echo 0 | sudo tee /sys/bus/wmi/drivers/acer-wmi-battery/health_mode"
 alias fix-bat='~/.ripristina-batteria.sh'
+alias sys-check='topgrade && system-fix && cleanall'
 
-# Stampa versione Zsh
+# Print Zsh version
 echo "Zsh $ZSH_VERSION"
 
-# Fine misurazione tempo
+# End startup time measurement
 ZSH_END_TIME=$(date +%s%3N)
 
-# Calcolo durata
+# Compute startup duration
 ZSH_LOAD_TIME=$((ZSH_END_TIME - ZSH_START_TIME))
 
-# Messaggi da stampare
+# Print startup message
 echo "Loading personal and system profiles took ${ZSH_LOAD_TIME}ms."
 
-# fastfetch solo al primo terminale dopo ogni boot
+# Run fastfetch only in the first terminal after each boot
 FLAG="/tmp/.fastfetch_ran_$(whoami)"
 
-# Estrae il btime (secondi dall'epoca Unix all'avvio) in modo universale su Linux
+# Extract btime (Unix epoch seconds at boot) on Linux
 BOOT_TIME=$(awk '/^btime/ {print $2}' /proc/stat)
 
 STORED_TIME=""

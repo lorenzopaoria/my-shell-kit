@@ -10,7 +10,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="robbyrussell"
 
-# Inizio misurazione tempo (millisecondi)
+# Start startup time measurement (milliseconds)
 ZSH_START_TIME=$(date +%s%3N)
 
 # Set list of themes to pick from when loading at random
@@ -107,19 +107,11 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 echo "Zsh $ZSH_VERSION"
-# fastfetch solo al primo terminale dopo ogni boot
+# Run fastfetch only in the first terminal after each boot
 FLAG="/tmp/.fastfetch_ran_$(whoami)"
 
-# Determina il boot time in base al sistema
-if [[ -f /proc/version ]] && grep -qi microsoft /proc/version 2>/dev/null; then
-    # WSL: usa il boot time di Windows tramite interop
-    BOOT_TIME="$(powershell.exe -NoProfile -Command '(Get-CimInstance Win32_OperatingSystem).LastBootUpTime.ToString("o")' 2>/dev/null | tr -d '\r')"
-else
-    # Linux nativo: btime da /proc/stat
-    BOOT_TIME="$(awk '/^btime/ {print $2}' /proc/stat 2>/dev/null)"
-    # macOS fallback
-    [[ -z "$BOOT_TIME" ]] && BOOT_TIME="$(sysctl -n kern.boottime 2>/dev/null)"
-fi
+# WSL-specific boot time using Windows via PowerShell interop
+BOOT_TIME="$(powershell.exe -NoProfile -Command '(Get-CimInstance Win32_OperatingSystem).LastBootUpTime.ToString("o")' 2>/dev/null | tr -d '\r')"
 
 STORED_TIME=""
 [[ -f "$FLAG" ]] && STORED_TIME="$(cat "$FLAG" 2>/dev/null)"
@@ -129,11 +121,11 @@ if [[ -z "$BOOT_TIME" ]] || [[ "$STORED_TIME" != "$BOOT_TIME" ]]; then
     echo "$BOOT_TIME" > "$FLAG"
 fi
 
-# Fine misurazione tempo
+# End startup time measurement
 ZSH_END_TIME=$(date +%s%3N)
 
-# Calcolo durata
+# Compute startup duration
 ZSH_LOAD_TIME=$((ZSH_END_TIME - ZSH_START_TIME))
 
-# Messaggi da stampare
+# Print startup message
 echo "Loading personal and system profiles took ${ZSH_LOAD_TIME}ms."

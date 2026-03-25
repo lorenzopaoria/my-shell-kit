@@ -1,19 +1,14 @@
-# macOS Setup (Zsh + Oh My Zsh)
+# WSL Setup (Zsh + Oh My Zsh)
 
-This folder contains a macOS-friendly Zsh setup.
+This folder provides a lightweight `.zshrc` for WSL with optional `fastfetch` startup behavior.
 
-## Requirements (Homebrew)
+## Requirements
 
-Install Homebrew if missing:
-
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-
-Install required tools:
+Inside your WSL distro (Ubuntu/Debian example):
 
 ```bash
-brew install zsh git curl wget fastfetch bat
+sudo apt update
+sudo apt install -y zsh git curl wget fastfetch
 ```
 
 ## Install and Enable Zsh
@@ -23,7 +18,7 @@ zsh --version
 chsh -s "$(which zsh)"
 ```
 
-Restart terminal session after changing shell.
+Close and reopen the WSL terminal after changing shell.
 
 ## Install Oh My Zsh
 
@@ -32,6 +27,15 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 ```
 
 ## Install Zsh Plugins (git clone)
+
+The `.zshrc` uses these plugins:
+
+- `zsh-autosuggestions`
+- `zsh-syntax-highlighting`
+- `you-should-use`
+- `zsh-bat`
+
+Install them:
 
 ```bash
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
@@ -65,5 +69,5 @@ source ~/.zshrc
 
 ## Notes
 
-- This setup includes startup timing output and optional `fastfetch` on first terminal after boot.
-- If a plugin is missing, remove it from the `plugins=(...)` line until installed.
+- The startup logic detects WSL and uses Windows boot time via PowerShell interop.
+- If `fastfetch` is not installed, remove or comment its call in `.zshrc`.

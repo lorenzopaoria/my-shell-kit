@@ -1,4 +1,4 @@
-# If you come from bash you might have to change your $PATH.
+# If you come from bash you might need to adjust your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 # Path to your Oh My Zsh installation.
@@ -81,18 +81,17 @@ alias fetchconf="code ~/.config/fastfetch/config.jsonc"
 alias ..="cd .."
 alias ...="cd ../.."
 alias ll="ls -alFh"
-alias la="ls -a"
 alias py="python3"
-alias open="xdg-open ."
+alias open="open ."
 alias avenv="source ./venv/bin/activate"
 alias ovenv="deactivate"
 
 # Print active Zsh version.
 echo "Zsh $ZSH_VERSION"
 
-# Show fastfetch only once after each Windows boot (WSL specific).
+# Show fastfetch only once after each system boot.
 FLAG="/tmp/.fastfetch_ran_$(whoami)"
-BOOT_TIME="$(powershell.exe -NoProfile -Command '(Get-CimInstance Win32_OperatingSystem).LastBootUpTime.ToString("o")' 2>/dev/null | tr -d '\r')"
+BOOT_TIME="$(sysctl -n kern.boottime 2>/dev/null)"
 
 STORED_TIME=""
 [[ -f "$FLAG" ]] && STORED_TIME="$(cat "$FLAG" 2>/dev/null)"
