@@ -105,12 +105,16 @@ source $ZSH/oh-my-zsh.sh
 # export nvidia
 export PATH=/usr/local/cuda/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+# export ollama, claude code
+export PATH="$HOME/.local/bin:$PATH"
+export ANTHROPIC_BASE_URL="http://localhost:11434"
+export ANTHROPIC_API_KEY="ollama"
 #
 # aliases
 alias zshconf="code ~/.zshrc"
 alias fetchconf="code ~/.config/fastfetch/config.jsonc"
 alias py="python3"
-alias open="xdg-open ."
+alias file="xdg-open ."
 alias ll="ls -alFh"
 alias avenv="source ./venv/bin/activate"
 alias ovenv="deactivate"
@@ -121,9 +125,10 @@ alias cleanall="sudo dnf autoremove && sudo dnf clean all && sudo dnf upgrade --
 alias bat-status='echo "\e[1;34m── $(date +%H:%M:%S) - Acer health status ─────────────────────────\e[0m"; h_status=$(cat /sys/bus/wmi/drivers/acer-wmi-battery/health_mode 2>/dev/null); if [ "$h_status" = "1" ]; then echo "\e[1;32mON - 80% limit enabled\e[0m"; else echo "\e[1;31mOFF - Full 100% charging enabled\e[0m"; fi; echo "\e[1;34m── $(date +%H:%M:%S) - General battery information ──────────────────────────\e[0m"; echo "    temperature:         $(awk "{print \$1/1000}" /sys/bus/wmi/drivers/acer-wmi-battery/temperature 2>/dev/null)°C"; upower -i $(upower -e | grep BAT) | grep --color=never -E "state|percentage|capacity"; echo "\n\e[1;32m✔ Signed MOK driver is active.\e[0m\n"'
 alias bat-80="echo 1 | sudo tee /sys/bus/wmi/drivers/acer-wmi-battery/health_mode"
 alias bat-100="echo 0 | sudo tee /sys/bus/wmi/drivers/acer-wmi-battery/health_mode"
-alias fix-bat='~/.ripristina-batteria.sh'
+alias bat-fix='bash ~/.ripristina-batteria.sh'
 alias sys-check='topgrade && system-fix && cleanall'
 
+###########################################################
 # Print Zsh version
 echo "Zsh $ZSH_VERSION"
 
@@ -135,6 +140,7 @@ ZSH_LOAD_TIME=$((ZSH_END_TIME - ZSH_START_TIME))
 
 # Print startup message
 echo "Loading personal and system profiles took ${ZSH_LOAD_TIME}ms."
+###########################################################
 
 # Run fastfetch only in the first terminal after each boot
 FLAG="/tmp/.fastfetch_ran_$(whoami)"
