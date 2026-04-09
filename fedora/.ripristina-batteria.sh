@@ -14,10 +14,10 @@ rm -rf $TEMP_DIR
 git clone https://github.com/frederik-h/acer-wmi-battery.git $TEMP_DIR
 cd $TEMP_DIR && make
 
-# 3. Installazione e Firma con MOK (Necessario per Secure Boot)
+# 3. Installazione e Firma con MOK (Utilizzando le chiavi akmods di sistema)
 sudo mkdir -p /lib/modules/$KERNEL_VER/extra/
 sudo cp acer-wmi-battery.ko /lib/modules/$KERNEL_VER/extra/
-sudo /usr/src/kernels/$KERNEL_VER/scripts/sign-file sha256 $MOK_DIR/MOK.key $MOK_DIR/MOK.bin /lib/modules/$KERNEL_VER/extra/acer-wmi-battery.ko
+sudo /usr/src/kernels/$KERNEL_VER/scripts/sign-file sha256 /etc/pki/akmods/private/private_key.priv /etc/pki/akmods/certs/public_key.der /lib/modules/$KERNEL_VER/extra/acer-wmi-battery.ko
 
 # 4. Caricamento Modulo
 sudo depmod -a
