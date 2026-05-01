@@ -1,0 +1,14 @@
+GRUB_TIMEOUT=5
+GRUB_TIMEOUT_STYLE=menu
+GRUB_DISTRIBUTOR="$(sed 's, release .*$,,g' /etc/system-release)"
+GRUB_DEFAULT=saved
+GRUB_SAVEDEFAULT=true
+GRUB_DISABLE_SUBMENU=true
+#GRUB_TERMINAL_OUTPUT=console
+GRUB_CMDLINE_LINUX="rd.luks.uuid=luks-f1c01663-0532-4252-b884-456e6fca6f0a rhgb quiet rd.driver.blacklist=nouveau,nova_core modprobe.blacklist=nouveau,nova_core"
+GRUB_DISABLE_RECOVERY="true"
+GRUB_ENABLE_BLSCFG=true
+GRUB_DISABLE_OS_PROBER=false
+GRUB_FONT=/boot/grub2/fonts/unicode.pf2
+GRUB_THEME="/boot/grub2/themes/vimix/theme.txt"
+GRUB_GFXMODE=1920x1080,auto
