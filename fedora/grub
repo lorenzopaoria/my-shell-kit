@@ -10,5 +10,5 @@ GRUB_DISABLE_RECOVERY="true"
 GRUB_ENABLE_BLSCFG=true
 GRUB_DISABLE_OS_PROBER=false
 GRUB_FONT=/boot/grub2/fonts/unicode.pf2
-GRUB_THEME="/boot/grub2/themes/vimix/theme.txt"
+#GRUB_THEME="/boot/grub2/themes/vimix/theme.txt"
 GRUB_GFXMODE=1920x1080,auto
