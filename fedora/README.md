@@ -78,3 +78,4 @@ source ~/.zshrc
 - `system-fix`, `battery aliases`, and cleanup aliases can run privileged commands.
 - If `bat` command is missing, install package `bat`.
 - If you do not use Acer battery modules, battery aliases can be removed safely.
+- rpova
